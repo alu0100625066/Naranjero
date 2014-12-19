@@ -43,6 +43,36 @@ class Naranjero
 				expect(@n).to respond_to :recolectar_una
 			end
 			
+			it "Debe devolver la edad a la que muere el naranjero" do
+				q = Queue.new 
+				hNaranjero = Thread.new do
+					while @n.estado == ESTADO::VIVO do
+						retraso = 1
+						sleep retraso
+						@n.uno_mas
+						q.enq @n
+						retraso = 2
+						sleep retraso
+						@n.uno_mas
+						q.enq @n
+					end
+					@n.edad
+				end
+				hRecolector = Thread.new do
+					while @n.estado == ESTADO::VIVO do
+						retraso = 0
+						sleep retraso
+						q.deq.recolectar_una
+						retraso = 2
+						sleep retraso
+						q.deq.recolectar_una
+					end
+				end
+				hNaranjero.join
+				hRecolector.join
+				expect(hNaranjero.value) == 20
+			end
+			
 		end
 		
 	end

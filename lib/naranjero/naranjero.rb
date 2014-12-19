@@ -3,7 +3,7 @@
 
 require 'thread'
 
-EDAD_MAXIMA = 20
+EDAD_MAXIMA = 10
 
 module ESTADO
 	VIVO = 0
@@ -61,3 +61,45 @@ class Naranjero
 	private :muere, :prod_nar
 		
 end
+
+if __FILE__ == $0
+	n = Naranjero.new  2,2
+	q = Queue.new
+	hNaranjero = Thread.new do
+		while n.estado == ESTADO::VIVO do
+			retraso = 2
+			puts "Estado del crecimiento del naranjero: Dormido, tras #{retraso} segundos" 
+			sleep retraso
+			puts "Estado del crecimiento del naranjero: Reanimado, tras #{retraso} segundos"
+			n.uno_mas
+			puts "El naranjero crece"
+			q.enq n
+			retraso = 4
+			puts "Estado del crecimiento del naranjero: Dormido, tras #{retraso} segundos"
+			sleep retraso
+			puts "Estado del crecimiento del naranjero: Reanimado, tras #{retraso} segundos"
+			n.uno_mas
+			puts "El naranjero crece"
+			q.enq n
+		end
+	end
+	
+	hRecolector = Thread.new do
+		while n.estado == ESTADO::VIVO do
+			retraso = 0
+			puts "  El recolector se duerme durante #{retraso} segundos"
+			sleep retraso
+			puts "  El recolector se reanima después de #{retraso} segundos"
+			puts "  El recolector está esperando ..."
+			puts "  #{q.deq.recolectar_una}"
+			retraso = 4
+			puts "  El recolector se duerme durante #{retraso} segundos"
+			sleep retraso
+			puts "  El recolector se reanima después de #{retraso} segundos"
+			puts "  El recolector está esperando ..."
+			puts "  #{q.deq.recolectar_una}"
+		end
+	end
+	hNaranjero.join
+	hRecolector.join
+end	
