@@ -14,11 +14,11 @@ end
 
 desc "Ejecutar pruebas spec y volcar el resultado en un fichero html"
 task :html do
-	sh "rspec -I. -Ilib -Ilib/Naranjero -Ispec spec/Naranjero_spec.rb --format html > doc/test/index.html"
+	sh "rspec -I. -Ilib -Ilib/naranjero -Ispec spec/naranjero_spec.rb --format html > doc/test/index.html"
         sh "firefox doc/test/index.html"
 end
 
 desc "Ejecutar pruebas spec y volcar el resultado en un fichero de texto"
 task :doc do
-	sh "rspec -I. -Ilib -Ilib/Naranjero -Ispec spec/Naranjero_spec.rb --format documentation"
+	sh "rspec -I. -Ilib -Ilib/naranjero -Ispec spec/naranjero_spec.rb --format documentation"
 end
