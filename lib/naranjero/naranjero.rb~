@@ -77,8 +77,6 @@ class Naranjero
 		
 end
 
-
-#FIchero donde se muesrta los resultados.
 if __FILE__ == $0
 	n = Naranjero.new  2,2
 	q = Queue.new
